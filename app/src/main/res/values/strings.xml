@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">WhiteBall</string>
+    <string name="history_title">History</string>
+    <string name="best_record">Record</string>
+    <string name="time_representation">%02d:%02d</string>
+    <string name="play_button_text">Play Game</string>
+    <string name="politics_button_text">Politics</string>
+    <string name="history_button_text">Game History</string>
+    <string name="exit_button_text">Exit App</string>
+</resources>
