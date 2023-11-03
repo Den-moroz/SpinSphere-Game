@@ -1,6 +1,7 @@
 package core.basesyntax.whiteball.presentation.ui
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,7 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -43,6 +46,7 @@ import core.basesyntax.whiteball.presentation.navigation.Screen
 import core.basesyntax.whiteball.WhiteBallApplication
 import core.basesyntax.whiteball.data.entity.GameHistory
 import core.basesyntax.whiteball.presentation.model.Constants
+import core.basesyntax.whiteball.presentation.usecases.FrameClock
 import core.basesyntax.whiteball.presentation.viewmodel.GameHistoryViewModel
 import core.basesyntax.whiteball.presentation.viewmodel.GameHistoryViewModelFactory
 import core.basesyntax.whiteball.presentation.viewmodel.GameViewModel
@@ -170,6 +174,9 @@ fun WhiteBallGame(gameViewModel: GameViewModel, gameHistoryViewModel: GameHistor
     val padding = Constants.PADDING
     val increasedPadding = Constants.INCREASED_PADDING
 
+    val frameClock = remember { FrameClock() }
+    var fps by remember { mutableStateOf(0) }
+
     Canvas(
         modifier = Modifier
             .fillMaxSize()
@@ -181,6 +188,15 @@ fun WhiteBallGame(gameViewModel: GameViewModel, gameHistoryViewModel: GameHistor
                 }
             }
     ) {
+        frameClock.update()
+        val currentTimeMillis = System.currentTimeMillis()
+        val elapsedTime = currentTimeMillis - frameClock.lastTimeMillis
+        if (elapsedTime > 0) {
+            fps = (frameClock.frameCount * 1000 / elapsedTime).toInt()
+        } else {
+            fps = 0
+        }
+
         drawRect(color = gameViewModel.backgroundColor, size = size)
 
         val centerX = center.x
@@ -272,6 +288,19 @@ fun WhiteBallGame(gameViewModel: GameViewModel, gameHistoryViewModel: GameHistor
 
             drawCircle(color = Color.White, radius = ballRadius, center = Offset(ballX, ballY))
         }
+    }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        contentAlignment = Alignment.TopEnd
+    ) {
+        Text(
+            text = "fps: $fps",
+            color = Color.White,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Bold,
+        )
     }
 }
 
