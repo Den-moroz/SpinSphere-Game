@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import core.basesyntax.whiteball.presentation.model.GameState
 import core.basesyntax.whiteball.R
+import core.basesyntax.whiteball.presentation.model.Block
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.cos
@@ -33,6 +34,9 @@ class GameViewModel(private val context: Context) : ViewModel() {
 
     var elapsedTime by mutableStateOf(0L)
     private var mediaPlayer: MediaPlayer? = null
+
+
+    var blocks: List<Block> = emptyList()
 
     init {
         resetGame()
@@ -64,6 +68,14 @@ class GameViewModel(private val context: Context) : ViewModel() {
     fun stopGame() {
         isGameOver = true
         gameState = GameState.GameOver(backgroundColor, elapsedTime, score)
+
+        mediaPlayer?.let {
+            if (it.isPlaying) {
+                it.stop()
+            }
+            it.release()
+            mediaPlayer = null
+        }
     }
 
     fun startGame() {
@@ -71,8 +83,8 @@ class GameViewModel(private val context: Context) : ViewModel() {
         mediaPlayer?.isLooping = true
         mediaPlayer?.start()
 
-        elapsedTime = 0L
         viewModelScope.launch {
+        elapsedTime = 0L
             while (!isGameOver) {
                 delay(1000L)
                 elapsedTime += 1000L

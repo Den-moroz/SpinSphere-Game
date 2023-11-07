@@ -1,7 +1,7 @@
 package core.basesyntax.whiteball.presentation.ui
 
+import android.graphics.RectF
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,9 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -45,6 +43,7 @@ import core.basesyntax.whiteball.R
 import core.basesyntax.whiteball.presentation.navigation.Screen
 import core.basesyntax.whiteball.WhiteBallApplication
 import core.basesyntax.whiteball.data.entity.GameHistory
+import core.basesyntax.whiteball.presentation.model.Block
 import core.basesyntax.whiteball.presentation.model.Constants
 import core.basesyntax.whiteball.presentation.usecases.FrameClock
 import core.basesyntax.whiteball.presentation.viewmodel.GameHistoryViewModel
@@ -224,15 +223,41 @@ fun WhiteBallGame(gameViewModel: GameViewModel, gameHistoryViewModel: GameHistor
         val thirdBlockY = secondBlockY + blockHeight + increasedPadding
         drawRect(color = Color.Black, size = Size(blockWidth, blockHeight), topLeft = Offset(thirdBlockX, thirdBlockY))
 
+        gameViewModel.blocks = listOf(
+            Block(x = firstBlockX, y = firstBlockY),
+            Block(x = secondBlockX, y = secondBlockY),
+            Block(x = thirdBlockX, y = thirdBlockY)
+        )
+
         if (!gameViewModel.isGameOver) {
+            if (gameViewModel.isBallClockwise) {
+                ballRotationAngle += 2f
+            } else {
+                ballRotationAngle -= 2f
+            }
+
+            if (gameViewModel.isBlockClockwise) {
+                blockRotationAngle += 2f
+            } else {
+                blockRotationAngle -= 2f
+            }
+
             val ballX = centerX + circleRadius * cos(Math.toRadians(ballRotationAngle.toDouble())).toFloat()
             val ballY = centerY + circleRadius * sin(Math.toRadians(ballRotationAngle.toDouble())).toFloat()
 
-            val yellowSquarePosition = gameViewModel.yellowSquarePosition
+            for (block in gameViewModel.blocks) {
+                val blockBoundingBox = RectF(block.x, block.y, block.x + blockWidth, block.y + blockHeight)
+                val ballBoundingBox = RectF(ballX - ballRadius, ballY - ballRadius, ballX + ballRadius, ballY + ballRadius)
+
+                if (ballBoundingBox.intersect(blockBoundingBox)) {
+                    endGame(gameHistoryViewModel, gameViewModel)
+                    return@Canvas
+                }
+            }
 
             val distanceToYellowSquare = sqrt(
-                (ballX - (centerX + yellowSquarePosition.x * circleRadius)).pow(2) +
-                        (ballY - (centerY + yellowSquarePosition.y * circleRadius)).pow(2)
+                (ballX - (centerX + gameViewModel.yellowSquarePosition.x * circleRadius)).pow(2) +
+                        (ballY - (centerY + gameViewModel.yellowSquarePosition.y * circleRadius)).pow(2)
             )
 
             val collisionThreshold = ballRadius + yellowSquareSize / 2
@@ -265,24 +290,12 @@ fun WhiteBallGame(gameViewModel: GameViewModel, gameHistoryViewModel: GameHistor
                 endGame(gameHistoryViewModel, gameViewModel)
             }
 
-            if (gameViewModel.isBallClockwise) {
-                ballRotationAngle += 2f
-            } else {
-                ballRotationAngle -= 2f
-            }
-
-            if (gameViewModel.isBlockClockwise) {
-                blockRotationAngle += 2f
-            } else {
-                blockRotationAngle -= 2f
-            }
-
             drawRect(
                 color = Color.Yellow,
                 size = Size(yellowSquareSize, yellowSquareSize),
                 topLeft = Offset(
-                    centerX + yellowSquarePosition.x * circleRadius - yellowSquareSize / 2,
-                    centerY + yellowSquarePosition.y * circleRadius - yellowSquareSize / 2
+                    centerX + gameViewModel.yellowSquarePosition.x * circleRadius - yellowSquareSize / 2,
+                    centerY + gameViewModel.yellowSquarePosition.y * circleRadius - yellowSquareSize / 2
                 )
             )
 

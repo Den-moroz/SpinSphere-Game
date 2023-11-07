@@ -23,6 +23,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -86,13 +91,20 @@ fun CustomButton(
     backgroundColor: Color,
     onClick: () -> Unit
 ) {
+    var isButtonClicked by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .width(200.dp)
             .shadow(elevation = 0.dp, shape = RoundedCornerShape(4.dp))
     ) {
         Button(
-            onClick = onClick,
+            onClick = {
+                if (!isButtonClicked) {
+                    isButtonClicked = true
+                    onClick()
+                }
+            },
             colors = ButtonDefaults.buttonColors(backgroundColor),
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -103,6 +115,12 @@ fun CustomButton(
                 Icon(imageVector = icon, contentDescription = null, tint = Color.White, modifier = Modifier.size(15.dp))
                 Text(text = text, color = Color.White)
             }
+        }
+    }
+
+    DisposableEffect(isButtonClicked) {
+        onDispose {
+            isButtonClicked = false
         }
     }
 }
