@@ -1,6 +1,7 @@
 package core.basesyntax.whiteball.presentation.ui
 
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,10 +10,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
@@ -43,37 +46,52 @@ fun MainScreen(navController: NavController) {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
-            CustomButton(
-                text = stringResource(id = R.string.play_button_text),
-                icon = ImageVector.vectorResource(id = R.drawable.gamepad),
-                backgroundColor = Color(0xFF4CAF50),
-                onClick = { navController.navigate(Screen.GameScreen.route) }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            CustomButton(
-                text = stringResource(id = R.string.politics_button_text),
-                icon = Icons.Default.Info,
-                backgroundColor = Color(0xFF2196F3),
-                onClick = { navController.navigate(Screen.WebView.route) }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            CustomButton(
-                text = stringResource(id = R.string.history_button_text),
-                icon = Icons.Default.List,
-                backgroundColor = Color(0xFF9C27B0),
-                onClick = { navController.navigate(Screen.GameHistory.route) }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            CustomButton(
-                text = stringResource(id = R.string.exit_button_text),
-                icon = Icons.Default.ExitToApp,
-                backgroundColor = Color(0xFFE91E63),
-                onClick = { (context as? ComponentActivity)?.finish() }
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CustomButton(
+                    text = stringResource(id = R.string.play_button_text),
+                    icon = ImageVector.vectorResource(id = R.drawable.gamepad),
+                    backgroundColor = Color(0xFF4CAF50),
+                    onClick = { navController.navigate(Screen.GameScreen.route) }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                CustomButton(
+                    text = stringResource(id = R.string.politics_button_text),
+                    icon = Icons.Default.Info,
+                    backgroundColor = Color(0xFF2196F3),
+                    onClick = { navController.navigate(Screen.WebView.route) }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                CustomButton(
+                    text = stringResource(id = R.string.history_button_text),
+                    icon = Icons.Default.List,
+                    backgroundColor = Color(0xFF9C27B0),
+                    onClick = { navController.navigate(Screen.GameHistory.route) }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                CustomButton(
+                    text = stringResource(id = R.string.exit_button_text),
+                    icon = Icons.Default.ExitToApp,
+                    backgroundColor = Color(0xFFE91E63),
+                    onClick = { (context as? ComponentActivity)?.finish() }
+                )
+            }
+
+            Icon(
+                imageVector = Icons.Default.AccountCircle,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .size(53.dp)
+                    .align(Alignment.TopEnd)
+                    .clickable(onClick = { navController.navigate(Screen.SignInScreen.route) })
             )
         }
     }

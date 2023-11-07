@@ -7,4 +7,5 @@
     <string name="politics_button_text">Politics</string>
     <string name="history_button_text">Game History</string>
     <string name="exit_button_text">Exit App</string>
+    <string name="default_web_client_id">788485321625-6i7gojtlbeeckrpnql64rvockctdvl1h.apps.googleusercontent.com</string>
 </resources>
