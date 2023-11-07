@@ -35,7 +35,6 @@ class GameViewModel(private val context: Context) : ViewModel() {
     var elapsedTime by mutableStateOf(0L)
     private var mediaPlayer: MediaPlayer? = null
 
-
     var blocks: List<Block> = emptyList()
 
     init {
@@ -54,6 +53,10 @@ class GameViewModel(private val context: Context) : ViewModel() {
     }
 
     fun resetGame() {
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        mediaPlayer = null
+
         score = 0
         isGameOver = false
         isBallClockwise = true
@@ -84,7 +87,7 @@ class GameViewModel(private val context: Context) : ViewModel() {
         mediaPlayer?.start()
 
         viewModelScope.launch {
-        elapsedTime = 0L
+            elapsedTime = 0L
             while (!isGameOver) {
                 delay(1000L)
                 elapsedTime += 1000L

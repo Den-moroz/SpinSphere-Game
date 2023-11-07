@@ -23,7 +23,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,6 +43,8 @@ import core.basesyntax.whiteball.presentation.navigation.Screen
 @Composable
 fun MainScreen(navController: NavController) {
     val context = LocalContext.current
+    var isButtonsEnabled by remember { mutableStateOf(true) }
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -57,28 +58,52 @@ fun MainScreen(navController: NavController) {
                 text = stringResource(id = R.string.play_button_text),
                 icon = ImageVector.vectorResource(id = R.drawable.gamepad),
                 backgroundColor = Color(0xFF4CAF50),
-                onClick = { navController.navigate(Screen.GameScreen.route) }
+                onClick = {
+                    if (isButtonsEnabled) {
+                        isButtonsEnabled = false
+                        navController.navigate(Screen.GameScreen.route)
+                    }
+                },
+                isEnabled = isButtonsEnabled
             )
             Spacer(modifier = Modifier.height(16.dp))
             CustomButton(
                 text = stringResource(id = R.string.politics_button_text),
                 icon = Icons.Default.Info,
                 backgroundColor = Color(0xFF2196F3),
-                onClick = { navController.navigate(Screen.WebView.route) }
+                onClick = {
+                    if (isButtonsEnabled) {
+                        isButtonsEnabled = false
+                        navController.navigate(Screen.WebView.route)
+                    }
+                },
+                isEnabled = isButtonsEnabled
             )
             Spacer(modifier = Modifier.height(16.dp))
             CustomButton(
                 text = stringResource(id = R.string.history_button_text),
                 icon = Icons.Default.List,
                 backgroundColor = Color(0xFF9C27B0),
-                onClick = { navController.navigate(Screen.GameHistory.route) }
+                onClick = {
+                    if (isButtonsEnabled) {
+                        isButtonsEnabled = false
+                        navController.navigate(Screen.GameHistory.route)
+                    }
+                },
+                isEnabled = isButtonsEnabled
             )
             Spacer(modifier = Modifier.height(16.dp))
             CustomButton(
                 text = stringResource(id = R.string.exit_button_text),
                 icon = Icons.Default.ExitToApp,
                 backgroundColor = Color(0xFFE91E63),
-                onClick = { (context as? ComponentActivity)?.finish() }
+                onClick = {
+                    if (isButtonsEnabled) {
+                        isButtonsEnabled = false
+                        (context as? ComponentActivity)?.finish()
+                    }
+                },
+                isEnabled = isButtonsEnabled
             )
         }
     }
@@ -89,10 +114,9 @@ fun CustomButton(
     text: String,
     icon: ImageVector,
     backgroundColor: Color,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    isEnabled: Boolean
 ) {
-    var isButtonClicked by remember { mutableStateOf(false) }
-
     Box(
         modifier = Modifier
             .width(200.dp)
@@ -100,27 +124,26 @@ fun CustomButton(
     ) {
         Button(
             onClick = {
-                if (!isButtonClicked) {
-                    isButtonClicked = true
+                if (isEnabled) {
                     onClick()
                 }
             },
             colors = ButtonDefaults.buttonColors(backgroundColor),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = isEnabled
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Icon(imageVector = icon, contentDescription = null, tint = Color.White, modifier = Modifier.size(15.dp))
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(15.dp)
+                )
                 Text(text = text, color = Color.White)
             }
-        }
-    }
-
-    DisposableEffect(isButtonClicked) {
-        onDispose {
-            isButtonClicked = false
         }
     }
 }

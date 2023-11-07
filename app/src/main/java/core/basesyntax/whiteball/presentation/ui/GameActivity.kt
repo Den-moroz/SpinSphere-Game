@@ -9,14 +9,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -325,6 +328,8 @@ fun GameOverScreen(
     onMenuClick: () -> Unit,
     onTryAgainClick: () -> Unit
 ) {
+    var buttonsEnabled by remember { mutableStateOf(true) }
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -364,15 +369,33 @@ fun GameOverScreen(
                 )
             )
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Button(onClick = onMenuClick) {
-                    Text(text = "Menu")
-                }
-                Button(onClick = onTryAgainClick) {
-                    Text(text = "Try Again")
-                }
+                CustomButton(
+                    text = "Menu",
+                    onClick = {
+                        if (buttonsEnabled) {
+                            buttonsEnabled = false
+                            onMenuClick()
+                        }
+                    },
+                    icon = Icons.Default.ExitToApp,
+                    backgroundColor = Color.Red,
+                    isEnabled = buttonsEnabled
+                )
+                CustomButton(
+                    text = "Try Again",
+                    onClick = {
+                        if (buttonsEnabled) {
+                            buttonsEnabled = false
+                            onTryAgainClick()
+                        }
+                    },
+                    icon = Icons.Default.PlayArrow,
+                    backgroundColor = Color.Green,
+                    isEnabled = buttonsEnabled
+                )
             }
         }
     }
