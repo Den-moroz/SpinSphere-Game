@@ -26,11 +26,13 @@
 - **Jetpack Compose:** The game is built using Jetpack Compose for modern Android UI development.
 - **Retrofit:** Retrofit is used for making network requests and handling API responses.
 - **Room Database:** Room is utilized for local storage and managing game history.
+<hr>
 
 - **Coroutines:** Kotlin Coroutines are used for handling asynchronous tasks.
 - **ViewModel:** ViewModel architecture component is used for managing game-related data.
 - **FrameClock:** Implements a FrameClock to track and display real-time Frames Per Second (FPS) information, providing insights into game performance.
 - **MediaPlayer:** Incorporates the Android MediaPlayer class to manage background music, enhancing the overall gaming atmosphere.
+<hr>
 
 - **WebView:** Utilizes the Android WebView component to seamlessly integrate web content, allowing features like displaying external web pages within the app.
 - **Material3 Components:** Integrates Material3 components, such as Buttons and Icons, to achieve a modern and consistent visual design.
