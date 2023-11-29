@@ -23,7 +23,7 @@
 </div>
 
 - **Kotlin:** The primary programming language for developing the game logic and functionality.
-- **Jetpack Compose:** The game is built using Jetpack Compose for modern Android UI development.
+- **Firebase Authentication:** Firebase is employed for user authentication, supporting Google, Facebook, and email/password login.
 - **Retrofit:** Retrofit is used for making network requests and handling API responses.
 - **Room Database:** Room is utilized for local storage and managing game history.
 <hr>
@@ -34,8 +34,9 @@
 - **MediaPlayer:** Incorporates the Android MediaPlayer class to manage background music, enhancing the overall gaming atmosphere.
 <hr>
 
+- **Jetpack Compose:** The game is built using Jetpack Compose for modern Android UI development.
 - **WebView:** Utilizes the Android WebView component to seamlessly integrate web content, allowing features like displaying external web pages within the app.
-- **Material3 Components:** Integrates Material3 components, such as Buttons and Icons, to achieve a modern and consistent visual design.
+- **Material3 Components:** Integrates Material3 components, such as Buttons and Icons.
 - **Custom Composable Components:** Utilizes custom Composable components in Jetpack Compose for building a flexible and reusable UI.
 
 <hr>
