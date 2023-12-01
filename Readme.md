@@ -48,6 +48,7 @@
   <img src="screenshot1.png" alt="Screenshot 1" width="250"/>
   <img src="screenshot2.png" alt="Screenshot 2" width="250"/>
   <img src="screenshot3.png" alt="Screenshot 3" width="250"/>
+  <img src="screenshot4.png" alt="Screenshot 4" width="250"/>
 </div>
 
 <hr>
