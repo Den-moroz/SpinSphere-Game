@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "788485321625",
+    "project_id": "whiteball-e5a5f",
+    "storage_bucket": "whiteball-e5a5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788485321625:android:dd259f19ac37a9c9be9908",
+        "android_client_info": {
+          "package_name": "core.basesyntax.whiteball"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi8I3M9uvvX8PpDZ-4292toAESlZO0IRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
