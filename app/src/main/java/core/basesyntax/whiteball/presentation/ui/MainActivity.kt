@@ -127,7 +127,8 @@ class MainActivity : ComponentActivity() {
                                         ).build()
                                     )
                                 }
-                            }
+                            },
+                            navController = navController
                         )
                     }
                 }

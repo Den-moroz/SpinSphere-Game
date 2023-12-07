@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
 import core.basesyntax.whiteball.R
 import core.basesyntax.whiteball.presentation.model.SignInState
 
@@ -46,22 +47,37 @@ import core.basesyntax.whiteball.presentation.model.SignInState
 @Composable
 fun SignInScreen(
     state: SignInState,
-    onSignInClick: () -> Unit
+    onSignInClick: () -> Unit,
+    navController: NavController
 ) {
-    Column(
-        Modifier
+    Box(
+        modifier = Modifier
             .fillMaxSize()
             .paint(
                 painterResource(id = R.drawable.background_page),
                 contentScale = ContentScale.FillWidth
-            ),
+            )
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                BackButton(navController)
+            }
+        }
+    }
+
+    Column(
+        Modifier
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ConstraintLayout(
             Modifier.fillMaxSize()
         ) {
             val (topText, culm) = createRefs()
-            Text(text = "Welcome, Sign In",
+            Text(
+                text = "Welcome, Sign In",
                 color = Color.White,
                 modifier = Modifier
                     .padding(top = 16.dp, start = 32.dp)
@@ -72,6 +88,7 @@ fun SignInScreen(
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold
             )
+
             Column(
                 Modifier
                     .fillMaxWidth()
@@ -98,7 +115,7 @@ fun SignInScreen(
                 TextField(
                     value = emailText,
                     onValueChange = { emailText = it },
-                    label = { Text(text = "Example@gmail.com")},
+                    label = { Text(text = "Example@gmail.com") },
                     shape = RoundedCornerShape(10.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -127,7 +144,7 @@ fun SignInScreen(
                 TextField(
                     value = passwordText,
                     onValueChange = { passwordText = it },
-                    label = { Text(text = "Type your password")},
+                    label = { Text(text = "Type your password") },
                     shape = RoundedCornerShape(10.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     colors = TextFieldDefaults.outlinedTextFieldColors(

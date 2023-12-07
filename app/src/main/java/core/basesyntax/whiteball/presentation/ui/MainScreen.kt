@@ -32,10 +32,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -53,7 +56,12 @@ fun MainScreen(navController: NavController) {
         color = MaterialTheme.colorScheme.background
     ) {
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .paint(
+                    painterResource(id = R.drawable.background_page),
+                    contentScale = ContentScale.FillWidth
+                )
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -115,7 +123,7 @@ fun MainScreen(navController: NavController) {
             Icon(
                 imageVector = Icons.Default.AccountCircle,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = Color.Black,
                 modifier = Modifier
                     .padding(10.dp)
                     .size(53.dp)
@@ -136,7 +144,7 @@ fun CustomButton(
 ) {
     Box(
         modifier = Modifier
-            .width(200.dp)
+            .width(250.dp)
             .shadow(elevation = 0.dp, shape = RoundedCornerShape(4.dp))
     ) {
         Button(

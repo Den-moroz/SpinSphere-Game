@@ -32,8 +32,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -60,9 +62,12 @@ fun GameHistoryScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .paint(
+                painterResource(id = R.drawable.background_page),
+                contentScale = ContentScale.FillWidth
+            )
     ) {
-        Column() {
+        Column(modifier = Modifier.padding(16.dp)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
